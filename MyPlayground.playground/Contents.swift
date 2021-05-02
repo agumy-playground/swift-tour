@@ -73,14 +73,14 @@ print(informalGreeting)
 
 let vegetable = "red pepper"
 switch vegetable {
-    case "celery":
-        print("Add some raisins and make ants on a log.")
-    case "cucumber", "watercress":
-        print("That would make a good tea sandwich.")
-    case let x where x.hasSuffix("pepper"):
-        print("Is it a spicy \(x)?")
-    default:
-        print("Everything tastes good in soup.")
+case "celery":
+    print("Add some raisins and make ants on a log.")
+case "cucumber", "watercress":
+    print("That would make a good tea sandwich.")
+case let x where x.hasSuffix("pepper"):
+    print("Is it a spicy \(x)?")
+default:
+    print("Everything tastes good in soup.")
 }
 
 let interstingNumbers = [
@@ -184,7 +184,7 @@ increment(7)
 func hasAnyMatches(list: [Int], condition: (Int) -> Bool) -> Bool {
     for item in list {
         if condition(item) {
-          return true
+            return true
         }
     }
     return false
@@ -200,7 +200,7 @@ hasAnyMatches(list: numbers, condition: lessThanTen)
 
 numbers.map({ (number: Int) -> Int in
     if number % 2 != 0 {
-      return 0
+        return 0
     }
     return number
 })
@@ -342,3 +342,99 @@ print(triangleAndSquare.triangle.sideLength)
 let optionalSquare: Square? = Square(sideLength: 2.5, name: "optional square")
 
 let sideLength = optionalSquare?.sideLength
+
+enum Rank: Int {
+    case ace = 1
+    case two, three, four, five, six, seven, eight, nine, ten
+    case jack, queen, king
+    
+    func simpleDescription() -> String {
+        switch self {
+        case .ace:
+            return "ace"
+        case .jack :
+            return "jack"
+        case .queen:
+            return "queen"
+        case .king:
+            return "king"
+            
+        default:
+            return String(self.rawValue)
+            
+        }
+    }
+}
+
+let ace = Rank.ace
+let aceRawValue = ace.rawValue
+
+let two = Rank.two
+two.simpleDescription()
+
+if let convertedRank = Rank(rawValue: 3) {
+    let threeDescription = convertedRank.simpleDescription()
+    print(threeDescription)
+}
+
+enum Suit {
+    case spades, hearts, diamonds, clubs
+    
+    func simpleDescription() -> String {
+        switch self {
+        case .spades:
+            return "spades"
+        case .hearts:
+            return "hearts"
+        case .diamonds:
+            return "diamonds"
+        case .clubs:
+            return "clubs"
+        }
+    }
+    
+    func color() -> String {
+        switch self {
+        case .spades,.clubs:
+            return "black"
+        case .hearts,.diamonds:
+            return "red"
+        }
+    }
+}
+
+let hearts = Suit.hearts
+let heartsDescription = hearts.simpleDescription()
+let heartsColor = hearts.color()
+
+enum ServerResponse {
+    case result(String, String)
+    case failure(String)
+    case timeout(String)
+}
+
+let success = ServerResponse.result("6:00 am", "8:09 pm")
+let failure = ServerResponse.failure("Out of cheese.")
+let timeout = ServerResponse.timeout("this is timeout.")
+
+switch timeout {
+case let .result(sunrise, sunset):
+    print("Sunrise is at \(sunrise) and sunset is at \(sunset).")
+case let .failure(message):
+    print("Failure... \(message)")
+case let .timeout(message):
+    print(message)
+}
+
+struct Card {
+    var rank: Rank
+    var suit: Suit
+    func simpleDescription() -> String {
+        return "The \(rank.simpleDescription()) of \(suit.simpleDescription())"
+    }
+}
+
+let threeOfSpades = Card(rank: .three, suit: .spades)
+let threeOfSpadesDescription = threeOfSpades.simpleDescription()
+
+
